@@ -29,7 +29,23 @@ const Home = () => {
 
 
 	}
-
+	function deleteTodos() {
+		fetch("https://playground.4geeks.com/todo/todos/MicaelaDeRosa23", {
+			method: "DELETE",
+			headers: {
+				"Content-Type": "application/json"
+			}
+		})
+			.then(response => {
+				if (response.ok) {
+					setTodos([]);
+					console.log('Clear list');
+				}
+			})
+		then((data) => {
+			console.log(data);
+		});
+	};
 	return (
 		<div className="container mt-5">
 			<h1>Todo List</h1>
@@ -43,6 +59,7 @@ const Home = () => {
 							if (e.key === "Enter") {
 								setTodos(todos.concat([inputValue]));
 								postTodo()
+								deleteTodos()
 								setInputValue("");
 							}
 						}}
