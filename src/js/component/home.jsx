@@ -5,24 +5,23 @@ const Home = () => {
 	const [inputValue, setInputValue] = useState("");
 	const [todos, setTodos] = useState([]);
 
-	function getTodos(){
 
-	}
-
-	function postTodos(){
+	function postTodos() {
 		let newTask = {
-			label : "Study",
+			label: "Study",
 		}
 		fetch("https://playground.4geeks.com/todo/todos/MicaelaDeRosa23", {
 			method: "POST",
-			body: JSON.stringify(newTask),
+			body: JSON.stringify({label : newTask}),
 			headers: {
-			  "Content-Type": "application/json"
-		}})
-		.then((response)=>{response.json})
-		.then((data)=>{console.log(data);
+				"Content-Type": "application/json"
+			}
 		})
-		.catch((error)=>{return error})
+			.then((response) => { response.json })
+			.then((data) => {
+				console.log(data);
+			})
+			.catch((error) => { return error })
 	}
 
 
@@ -37,14 +36,33 @@ const Home = () => {
 		})
 		.catch((error) => { return error })
 
+		function deleteTodos() {
+			let deleteTasks = {
+				label: "Study",
+			}
+			fetch("https://playground.4geeks.com/todo/users/MicaelaDeRosa23", {
+				method: "DELETE",
+				body: JSON.stringify(deleteTasks),
+				headers: {
+					"Content-Type": "application/json"
+				}
+			})
+				.then(response => {if(response.ok){console.log("Delete Tasks");
+				}
+				 })
+				.then((data) => {
+					console.log(data);
+				})
+				.catch((error) => {console.error("Error delete tasks",error );})
+		};
+
+
 	return (
 		<div className="container mt-5">
 			<h1>Todo List</h1>
-			{todos.map((todo, index, array)=> {
+			{todos.length == 0 ? <h1>Wait</h1> : todos.map((todo, index, array) => {
 				console.log(todo);
-				
-				
-				return <h1>(newTask)</h1>
+				return <h1>(new  Task)</h1>
 			})}
 			<ul>
 				<li>
@@ -57,6 +75,7 @@ const Home = () => {
 								setTodos(todos.concat([inputValue]));
 								setInputValue("");
 								postTodos();
+								deleteTodos();
 							}
 						}}
 						placeholder="What do you need to do?"></input>
